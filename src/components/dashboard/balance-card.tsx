@@ -78,7 +78,9 @@ export default function BalanceCard() {
           {[income, expenses].map((card) => (
             <Card key={card.label} className="p-4">
               <div className="flex items-center justify-between mb-1">
-                <span className="text-xs text-muted-foreground">{card.label}</span>
+                <span className="text-xs text-muted-foreground">
+                  {card.label}
+                </span>
                 <card.icon size={13} className={card.color} />
               </div>
               <p className={`text-lg font-bold tabular-nums ${card.color}`}>
@@ -94,7 +96,9 @@ export default function BalanceCard() {
         {cards.map((card) => (
           <Card key={card.label} className="p-4">
             <div className="flex items-center justify-between mb-1">
-              <span className="text-sm text-muted-foreground">{card.label}</span>
+              <span className="text-sm text-muted-foreground">
+                {card.label}
+              </span>
               <card.icon size={16} className={card.color} />
             </div>
             <p className={`text-2xl font-bold tabular-nums ${card.color}`}>

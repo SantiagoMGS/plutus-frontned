@@ -1,8 +1,8 @@
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 const currencyFormatters: Record<string, Intl.NumberFormat> = {};
@@ -21,7 +21,7 @@ function getFormatter(currency: string): Intl.NumberFormat {
 
 export function formatCurrency(
   amount: string | number,
-  currency: string = "COP"
+  currency: string = "COP",
 ): string {
   const num = typeof amount === "string" ? parseFloat(amount) : amount;
   return getFormatter(currency).format(num);

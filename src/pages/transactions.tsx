@@ -24,7 +24,10 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { useTransactions, useDeleteTransaction } from "@/hooks/use-transactions";
+import {
+  useTransactions,
+  useDeleteTransaction,
+} from "@/hooks/use-transactions";
 import TransactionFilters from "@/components/transactions/transaction-filters";
 import TransactionForm from "@/components/transactions/transaction-form";
 import TransactionList from "@/components/transactions/transaction-list";

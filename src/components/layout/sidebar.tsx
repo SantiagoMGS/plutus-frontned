@@ -24,7 +24,11 @@ export default function Sidebar() {
     <aside className="hidden md:flex flex-col w-60 h-screen border-r border-border/50 bg-sidebar fixed left-0 top-0 z-40">
       <div className="px-4 py-5 flex items-center gap-2.5">
         <div className="w-7 h-7 rounded-lg bg-primary flex items-center justify-center shrink-0">
-          <TrendingUp size={14} className="text-primary-foreground" strokeWidth={2.5} />
+          <TrendingUp
+            size={14}
+            className="text-primary-foreground"
+            strokeWidth={2.5}
+          />
         </div>
         <h1 className="text-base font-bold tracking-tight">Plutus</h1>
       </div>

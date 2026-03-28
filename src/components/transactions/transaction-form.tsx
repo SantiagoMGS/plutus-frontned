@@ -52,9 +52,14 @@ export default function TransactionForm({ onSuccess }: TransactionFormProps) {
   const txType = form.watch("transaction_type");
   const selectedAccount = form.watch("account");
 
-  const categoryType = txType === "INCOME" ? "INCOME" : txType === "EXPENSE" ? "EXPENSE" : undefined;
+  const categoryType =
+    txType === "INCOME"
+      ? "INCOME"
+      : txType === "EXPENSE"
+        ? "EXPENSE"
+        : undefined;
   const { data: categoriesData } = useCategories(
-    categoryType ? { category_type: categoryType, page_size: 100 } : undefined
+    categoryType ? { category_type: categoryType, page_size: 100 } : undefined,
   );
   const categories = categoriesData?.results ?? [];
 

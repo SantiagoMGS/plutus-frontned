@@ -1,10 +1,5 @@
 import { NavLink } from "react-router";
-import {
-  LayoutDashboard,
-  Wallet,
-  ArrowLeftRight,
-  Tag,
-} from "lucide-react";
+import { LayoutDashboard, Wallet, ArrowLeftRight, Tag } from "lucide-react";
 
 const navItems = [
   { label: "Inicio", icon: LayoutDashboard, to: "/" },
@@ -30,7 +25,9 @@ export default function BottomNav() {
           }
         >
           <item.icon size={20} strokeWidth={1.75} />
-          <span className="text-[10px] font-medium leading-none">{item.label}</span>
+          <span className="text-[10px] font-medium leading-none">
+            {item.label}
+          </span>
         </NavLink>
       ))}
     </nav>

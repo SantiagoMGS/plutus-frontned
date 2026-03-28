@@ -45,7 +45,9 @@ export default function CategoriesPage() {
   const deleteMutation = useDeleteCategory();
 
   const [formOpen, setFormOpen] = useState(false);
-  const [editingCategory, setEditingCategory] = useState<Category | undefined>();
+  const [editingCategory, setEditingCategory] = useState<
+    Category | undefined
+  >();
   const [deletingCategory, setDeletingCategory] = useState<
     Category | undefined
   >();
@@ -109,7 +111,9 @@ export default function CategoriesPage() {
                 )}
               </div>
             </div>
-            <div className={`flex justify-end gap-1 ${cat.is_default ? "invisible" : ""}`}>
+            <div
+              className={`flex justify-end gap-1 ${cat.is_default ? "invisible" : ""}`}
+            >
               <Button
                 variant="ghost"
                 size="icon"

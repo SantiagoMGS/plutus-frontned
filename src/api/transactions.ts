@@ -7,11 +7,11 @@ import type {
 } from "@/types/transaction";
 
 export async function getTransactions(
-  params?: Record<string, string | number>
+  params?: Record<string, string | number>,
 ): Promise<PaginatedResponse<Transaction>> {
   const res = await apiClient.get<PaginatedResponse<Transaction>>(
     "/transactions/",
-    { params }
+    { params },
   );
   return res.data;
 }
@@ -22,7 +22,7 @@ export async function getTransaction(id: number): Promise<Transaction> {
 }
 
 export async function createTransaction(
-  data: TransactionCreateRequest
+  data: TransactionCreateRequest,
 ): Promise<Transaction> {
   const res = await apiClient.post<Transaction>("/transactions/", data);
   return res.data;
@@ -33,11 +33,11 @@ export async function deleteTransaction(id: number): Promise<void> {
 }
 
 export async function getTransactionSummary(
-  params?: Record<string, string>
+  params?: Record<string, string>,
 ): Promise<TransactionSummary> {
   const res = await apiClient.get<TransactionSummary>(
     "/transactions/summary/",
-    { params }
+    { params },
   );
   return res.data;
 }

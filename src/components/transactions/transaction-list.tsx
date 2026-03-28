@@ -106,9 +106,12 @@ export default function TransactionList({
                 </p>
                 <p className="text-xs text-muted-foreground truncate">
                   {tx.account_name}
-                  {tx.destination_account_name && ` → ${tx.destination_account_name}`}
+                  {tx.destination_account_name &&
+                    ` → ${tx.destination_account_name}`}
                 </p>
-                <p className="text-[11px] text-muted-foreground/70">{tx.date}</p>
+                <p className="text-[11px] text-muted-foreground/70">
+                  {tx.date}
+                </p>
               </div>
               <span
                 className={`text-sm font-bold tabular-nums shrink-0 ${config.color}`}

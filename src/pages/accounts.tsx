@@ -26,7 +26,11 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { useAccounts, useAccountSummary, useDeleteAccount } from "@/hooks/use-accounts";
+import {
+  useAccounts,
+  useAccountSummary,
+  useDeleteAccount,
+} from "@/hooks/use-accounts";
 import { formatCurrency } from "@/lib/utils";
 import AccountCard from "@/components/accounts/account-card";
 import AccountForm from "@/components/accounts/account-form";
@@ -94,7 +98,7 @@ export default function AccountsPage() {
                   {formatCurrency(balance, currency)}
                 </p>
               </Card>
-            )
+            ),
           )}
         </div>
       )}
@@ -120,7 +124,11 @@ export default function AccountsPage() {
           {(data?.results ?? []).map((account, i, arr) => (
             <div
               key={account.id}
-              className={arr.length % 2 !== 0 && i === arr.length - 1 ? "col-span-2 lg:col-span-1" : ""}
+              className={
+                arr.length % 2 !== 0 && i === arr.length - 1
+                  ? "col-span-2 lg:col-span-1"
+                  : ""
+              }
             >
               <AccountCard
                 account={account}

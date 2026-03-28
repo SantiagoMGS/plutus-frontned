@@ -53,7 +53,9 @@ export default function TransactionFilters({
     <>
       <Select
         value={filters.transaction_type ?? "ALL"}
-        onValueChange={(v) => { if (v) setFilter("transaction_type", v); }}
+        onValueChange={(v) => {
+          if (v) setFilter("transaction_type", v);
+        }}
       >
         <SelectTrigger className="h-11 w-full md:w-40">
           <SelectValue placeholder="Tipo" />
@@ -69,7 +71,9 @@ export default function TransactionFilters({
 
       <Select
         value={filters.account ?? "ALL"}
-        onValueChange={(v) => { if (v) setFilter("account", v); }}
+        onValueChange={(v) => {
+          if (v) setFilter("account", v);
+        }}
       >
         <SelectTrigger className="h-11 w-full md:w-44">
           <SelectValue placeholder="Cuenta" />

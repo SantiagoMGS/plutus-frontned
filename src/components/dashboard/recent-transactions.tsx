@@ -1,8 +1,4 @@
-import {
-  ArrowDownLeft,
-  ArrowUpRight,
-  ArrowLeftRight,
-} from "lucide-react";
+import { ArrowDownLeft, ArrowUpRight, ArrowLeftRight } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { formatCurrency } from "@/lib/utils";
 import { useTransactions } from "@/hooks/use-transactions";
@@ -92,9 +88,7 @@ export default function RecentTransactions() {
                 </p>
               </div>
             </div>
-            <span
-              className={`text-sm font-bold tabular-nums ${config.color}`}
-            >
+            <span className={`text-sm font-bold tabular-nums ${config.color}`}>
               {config.prefix}
               {formatCurrency(tx.amount)}
             </span>

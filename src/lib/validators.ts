@@ -46,7 +46,7 @@ export const accountSchema = z
     {
       message: "Límite de crédito es obligatorio para tarjetas de crédito",
       path: ["credit_limit"],
-    }
+    },
   );
 
 export type AccountFormData = z.infer<typeof accountSchema>;
@@ -71,7 +71,7 @@ export const transactionSchema = z
     {
       message: "Cuenta destino es obligatoria en transferencias",
       path: ["destination_account"],
-    }
+    },
   )
   .refine(
     (data) => {
@@ -83,7 +83,7 @@ export const transactionSchema = z
     {
       message: "Cuenta destino debe ser diferente a cuenta origen",
       path: ["destination_account"],
-    }
+    },
   );
 
 export type TransactionFormData = z.infer<typeof transactionSchema>;

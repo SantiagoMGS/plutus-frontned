@@ -19,10 +19,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { categorySchema, type CategoryFormData } from "@/lib/validators";
-import {
-  useCreateCategory,
-  useUpdateCategory,
-} from "@/hooks/use-categories";
+import { useCreateCategory, useUpdateCategory } from "@/hooks/use-categories";
 import type { Category } from "@/types/category";
 
 interface CategoryFormProps {

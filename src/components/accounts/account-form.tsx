@@ -19,10 +19,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { accountSchema, type AccountFormData } from "@/lib/validators";
-import {
-  useCreateAccount,
-  useUpdateAccount,
-} from "@/hooks/use-accounts";
+import { useCreateAccount, useUpdateAccount } from "@/hooks/use-accounts";
 import type { Account } from "@/types/account";
 
 interface AccountFormProps {
@@ -69,10 +66,7 @@ export default function AccountForm({ account, onSuccess }: AccountFormProps) {
 
   function onSubmit(data: AccountFormData) {
     if (isEditing) {
-      updateMutation.mutate(
-        { id: account.id, data },
-        { onSuccess }
-      );
+      updateMutation.mutate({ id: account.id, data }, { onSuccess });
     } else {
       createMutation.mutate(data, { onSuccess });
     }
@@ -90,7 +84,11 @@ export default function AccountForm({ account, onSuccess }: AccountFormProps) {
             <FormItem>
               <FormLabel>Nombre</FormLabel>
               <FormControl>
-                <Input className="h-11" placeholder="Ej: Davivienda" {...field} />
+                <Input
+                  className="h-11"
+                  placeholder="Ej: Davivienda"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -176,11 +174,7 @@ export default function AccountForm({ account, onSuccess }: AccountFormProps) {
                 <FormItem>
                   <FormLabel>Límite de crédito</FormLabel>
                   <FormControl>
-                    <Input
-                      className="h-11"
-                      placeholder="5000000"
-                      {...field}
-                    />
+                    <Input className="h-11" placeholder="5000000" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -218,7 +212,7 @@ export default function AccountForm({ account, onSuccess }: AccountFormProps) {
                         {...field}
                         onChange={(e) =>
                           field.onChange(
-                            e.target.value ? Number(e.target.value) : undefined
+                            e.target.value ? Number(e.target.value) : undefined,
                           )
                         }
                       />
@@ -244,7 +238,7 @@ export default function AccountForm({ account, onSuccess }: AccountFormProps) {
                         {...field}
                         onChange={(e) =>
                           field.onChange(
-                            e.target.value ? Number(e.target.value) : undefined
+                            e.target.value ? Number(e.target.value) : undefined,
                           )
                         }
                       />

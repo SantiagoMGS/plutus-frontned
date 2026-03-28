@@ -7,7 +7,7 @@ import type {
 } from "@/types/account";
 
 export async function getAccounts(
-  params?: Record<string, string | number>
+  params?: Record<string, string | number>,
 ): Promise<PaginatedResponse<Account>> {
   const res = await apiClient.get<PaginatedResponse<Account>>("/accounts/", {
     params,
@@ -21,7 +21,7 @@ export async function getAccount(id: number): Promise<Account> {
 }
 
 export async function createAccount(
-  data: AccountCreateRequest
+  data: AccountCreateRequest,
 ): Promise<Account> {
   const res = await apiClient.post<Account>("/accounts/", data);
   return res.data;
@@ -29,7 +29,7 @@ export async function createAccount(
 
 export async function updateAccount(
   id: number,
-  data: Partial<AccountCreateRequest>
+  data: Partial<AccountCreateRequest>,
 ): Promise<Account> {
   const res = await apiClient.patch<Account>(`/accounts/${id}/`, data);
   return res.data;
