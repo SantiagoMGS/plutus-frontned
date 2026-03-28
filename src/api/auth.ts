@@ -19,3 +19,7 @@ export async function saveDocumentMetadata(
   const res = await apiClient.post<User>("/auth/metadata/", data);
   return res.data;
 }
+
+export async function deleteMe(): Promise<void> {
+  await apiClient.delete("/auth/me/");
+}

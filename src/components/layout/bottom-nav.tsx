@@ -1,12 +1,11 @@
 import { NavLink } from "react-router";
-import { LayoutDashboard, Wallet, ArrowLeftRight, Tag, UserCog } from "lucide-react";
+import { LayoutDashboard, Wallet, ArrowLeftRight, Tag } from "lucide-react";
 
 const navItems = [
   { label: "Inicio", icon: LayoutDashboard, to: "/" },
   { label: "Cuentas", icon: Wallet, to: "/accounts" },
   { label: "Movimientos", icon: ArrowLeftRight, to: "/transactions" },
   { label: "Categorías", icon: Tag, to: "/categories" },
-  { label: "Perfil", icon: UserCog, to: "/profile" },
 ];
 
 export default function BottomNav() {

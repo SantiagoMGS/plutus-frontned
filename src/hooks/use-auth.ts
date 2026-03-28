@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useAuth0 } from "@auth0/auth0-react";
 import { toast } from "sonner";
-import { getMe, updateMe, saveDocumentMetadata } from "@/api/auth";
+import { getMe, updateMe, saveDocumentMetadata, deleteMe } from "@/api/auth";
 import { useAuthStore } from "@/stores/auth-store";
 import type { User, DocumentMetadataRequest } from "@/types/auth";
 
@@ -40,8 +40,11 @@ export function useUpdateProfile() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data: Partial<Pick<User, "first_name" | "last_name" | "currency_default">>) =>
-      updateMe(data),
+    mutationFn: (
+      data: Partial<
+        Pick<User, "first_name" | "last_name" | "currency_default">
+      >,
+    ) => updateMe(data),
     onSuccess: (user) => {
       useAuthStore.getState().setUser(user);
       queryClient.invalidateQueries({ queryKey: ["user", "me"] });
@@ -49,6 +52,25 @@ export function useUpdateProfile() {
     },
     onError: () => {
       toast.error("Error al actualizar el perfil");
+    },
+  });
+}
+
+export function useDeleteAccount() {
+  const { logout: auth0Logout } = useAuth0();
+  const queryClient = useQueryClient();
+  const { clearUser } = useAuthStore();
+
+  return useMutation({
+    mutationFn: () => deleteMe(),
+    onSuccess: () => {
+      clearUser();
+      queryClient.clear();
+      toast.success("Cuenta eliminada exitosamente");
+      auth0Logout({ logoutParams: { returnTo: window.location.origin } });
+    },
+    onError: () => {
+      toast.error("Error al eliminar la cuenta");
     },
   });
 }

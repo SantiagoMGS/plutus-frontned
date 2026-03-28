@@ -9,6 +9,7 @@ import {
   Loader2,
   Save,
   X,
+  Trash2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -32,7 +33,23 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { useUser, useUpdateProfile, useSaveDocumentMetadata } from "@/hooks/use-auth";
+import {
+  useUser,
+  useUpdateProfile,
+  useSaveDocumentMetadata,
+  useDeleteAccount,
+} from "@/hooks/use-auth";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import {
   profileSchema,
   documentMetadataSchema,
@@ -62,6 +79,7 @@ export default function ProfilePage() {
   const { data: user, isLoading } = useUser();
   const updateProfile = useUpdateProfile();
   const updateDocument = useSaveDocumentMetadata();
+  const deleteAccount = useDeleteAccount();
 
   const [editingProfile, setEditingProfile] = useState(false);
   const [editingDocument, setEditingDocument] = useState(false);
@@ -87,7 +105,9 @@ export default function ProfilePage() {
   function openEditDocument() {
     if (!user) return;
     documentForm.reset({
-      document_type: (user.document_type as DocumentMetadataFormData["document_type"]) ?? undefined,
+      document_type:
+        (user.document_type as DocumentMetadataFormData["document_type"]) ??
+        undefined,
       document_number: user.document_number ?? "",
     });
     setEditingDocument(true);
@@ -117,7 +137,9 @@ export default function ProfilePage() {
 
   if (!user) return null;
 
-  const initials = `${user.first_name?.[0] ?? ""}${user.last_name?.[0] ?? ""}`.toUpperCase() || "?";
+  const initials =
+    `${user.first_name?.[0] ?? ""}${user.last_name?.[0] ?? ""}`.toUpperCase() ||
+    "?";
 
   return (
     <div className="space-y-6 max-w-2xl mx-auto">
@@ -151,7 +173,10 @@ export default function ProfilePage() {
         <CardContent>
           {editingProfile ? (
             <Form {...profileForm}>
-              <form onSubmit={profileForm.handleSubmit(onProfileSubmit)} className="space-y-4">
+              <form
+                onSubmit={profileForm.handleSubmit(onProfileSubmit)}
+                className="space-y-4"
+              >
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <FormField
                     control={profileForm.control}
@@ -186,7 +211,10 @@ export default function ProfilePage() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Moneda predeterminada</FormLabel>
-                      <Select onValueChange={field.onChange} value={field.value}>
+                      <Select
+                        onValueChange={field.onChange}
+                        value={field.value}
+                      >
                         <FormControl>
                           <SelectTrigger className="h-10">
                             <SelectValue />
@@ -205,7 +233,11 @@ export default function ProfilePage() {
                   )}
                 />
                 <div className="flex gap-2 pt-1">
-                  <Button type="submit" size="sm" disabled={updateProfile.isPending}>
+                  <Button
+                    type="submit"
+                    size="sm"
+                    disabled={updateProfile.isPending}
+                  >
                     {updateProfile.isPending ? (
                       <Loader2 size={14} className="mr-1.5 animate-spin" />
                     ) : (
@@ -230,7 +262,9 @@ export default function ProfilePage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <p className="text-xs text-muted-foreground">Nombre</p>
-                  <p className="text-sm font-medium">{user.first_name || "—"}</p>
+                  <p className="text-sm font-medium">
+                    {user.first_name || "—"}
+                  </p>
                 </div>
                 <div>
                   <p className="text-xs text-muted-foreground">Apellido</p>
@@ -240,14 +274,18 @@ export default function ProfilePage() {
               <Separator />
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <p className="text-xs text-muted-foreground">Correo electrónico</p>
+                  <p className="text-xs text-muted-foreground">
+                    Correo electrónico
+                  </p>
                   <p className="text-sm font-medium flex items-center gap-1.5">
                     <Mail size={14} className="text-muted-foreground" />
                     {user.email}
                   </p>
                 </div>
                 <div>
-                  <p className="text-xs text-muted-foreground">Moneda predeterminada</p>
+                  <p className="text-xs text-muted-foreground">
+                    Moneda predeterminada
+                  </p>
                   <Badge variant="secondary">{user.currency_default}</Badge>
                 </div>
               </div>
@@ -284,7 +322,10 @@ export default function ProfilePage() {
         <CardContent>
           {editingDocument ? (
             <Form {...documentForm}>
-              <form onSubmit={documentForm.handleSubmit(onDocumentSubmit)} className="space-y-4">
+              <form
+                onSubmit={documentForm.handleSubmit(onDocumentSubmit)}
+                className="space-y-4"
+              >
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <FormField
                     control={documentForm.control}
@@ -292,7 +333,10 @@ export default function ProfilePage() {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Tipo de documento</FormLabel>
-                        <Select onValueChange={field.onChange} value={field.value}>
+                        <Select
+                          onValueChange={field.onChange}
+                          value={field.value}
+                        >
                           <FormControl>
                             <SelectTrigger className="h-10">
                               <SelectValue placeholder="Selecciona" />
@@ -317,7 +361,11 @@ export default function ProfilePage() {
                       <FormItem>
                         <FormLabel>Número de documento</FormLabel>
                         <FormControl>
-                          <Input className="h-10" placeholder="Ej: 1234567890" {...field} />
+                          <Input
+                            className="h-10"
+                            placeholder="Ej: 1234567890"
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -325,7 +373,11 @@ export default function ProfilePage() {
                   />
                 </div>
                 <div className="flex gap-2 pt-1">
-                  <Button type="submit" size="sm" disabled={updateDocument.isPending}>
+                  <Button
+                    type="submit"
+                    size="sm"
+                    disabled={updateDocument.isPending}
+                  >
                     {updateDocument.isPending ? (
                       <Loader2 size={14} className="mr-1.5 animate-spin" />
                     ) : (
@@ -350,15 +402,65 @@ export default function ProfilePage() {
               <div>
                 <p className="text-xs text-muted-foreground">Tipo</p>
                 <p className="text-sm font-medium">
-                  {user.document_type ? getDocumentLabel(user.document_type) : "—"}
+                  {user.document_type
+                    ? getDocumentLabel(user.document_type)
+                    : "—"}
                 </p>
               </div>
               <div>
                 <p className="text-xs text-muted-foreground">Número</p>
-                <p className="text-sm font-medium">{user.document_number || "—"}</p>
+                <p className="text-sm font-medium">
+                  {user.document_number || "—"}
+                </p>
               </div>
             </div>
           )}
+        </CardContent>
+      </Card>
+
+      {/* Zona peligrosa */}
+      <Card className="border-destructive/30">
+        <CardHeader className="pb-3">
+          <CardTitle className="text-base flex items-center gap-2 text-destructive">
+            <Trash2 size={18} />
+            Zona peligrosa
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-muted-foreground mb-4">
+            Al eliminar tu cuenta se desactivará permanentemente tu acceso y
+            todos tus datos asociados.
+          </p>
+          <AlertDialog>
+            <AlertDialogTrigger>
+              <Button variant="destructive" size="sm">
+                <Trash2 size={14} className="mr-1.5" />
+                Eliminar mi cuenta
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>¿Estás seguro?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Esta acción no se puede deshacer. Tu cuenta será desactivada y
+                  perderás acceso a todos tus datos.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                <AlertDialogAction
+                  onClick={() => deleteAccount.mutate()}
+                  className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                  disabled={deleteAccount.isPending}
+                >
+                  {deleteAccount.isPending ? (
+                    <Loader2 size={14} className="mr-1.5 animate-spin" />
+                  ) : null}
+                  Sí, eliminar cuenta
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </CardContent>
       </Card>
     </div>

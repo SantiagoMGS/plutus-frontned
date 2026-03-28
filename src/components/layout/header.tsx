@@ -76,7 +76,9 @@ export default function Header() {
             >
               {auth0User?.email}
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => (window.location.href = "/profile")}>
+            <DropdownMenuItem
+              onClick={() => (window.location.href = "/profile")}
+            >
               Mi perfil
             </DropdownMenuItem>
             <DropdownMenuItem onClick={logout}>Cerrar sesión</DropdownMenuItem>

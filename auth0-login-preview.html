@@ -1,0 +1,476 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Plutus — Preview Login</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+    <style>
+      /* ── Reset & base ── */
+      *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        background: #111111;
+        background-image: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(52, 211, 153, 0.07) 0%, transparent 70%);
+        color: #fafafa;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* ── Layout wrapper ── */
+      .login-container {
+        width: 100%;
+        max-width: 420px;
+        padding: 24px 20px;
+      }
+
+      /* ── Branding ── */
+      .brand {
+        text-align: center;
+        margin-bottom: 32px;
+      }
+
+      .brand-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+        height: 60px;
+        border-radius: 18px;
+        background: linear-gradient(135deg, rgba(52, 211, 153, 0.15) 0%, rgba(52, 211, 153, 0.08) 100%);
+        border: 1px solid rgba(52, 211, 153, 0.2);
+        box-shadow: 0 0 24px rgba(52, 211, 153, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        margin-bottom: 14px;
+      }
+
+      .brand-icon svg {
+        width: 28px;
+        height: 28px;
+        stroke: #34d399;
+        stroke-width: 2;
+        fill: none;
+      }
+
+      .brand h1 {
+        font-size: 30px;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        color: #fafafa;
+      }
+
+      .brand p {
+        font-size: 14px;
+        color: #666;
+        margin-top: 4px;
+        letter-spacing: 0.01em;
+      }
+
+      /* ── Features ── */
+      .features {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 28px;
+      }
+
+      .feature {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 13px;
+        color: #888;
+        padding: 2px 0;
+      }
+
+      .feature svg {
+        width: 16px;
+        height: 16px;
+        stroke: #34d399;
+        stroke-width: 2;
+        fill: none;
+        flex-shrink: 0;
+      }
+
+      /* ── Auth0 Lock Mock ── */
+
+      /* Container matching .auth0-lock-cred-pane */
+      .auth0-lock-cred-pane {
+        background: #1e1e1e;
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        overflow: hidden;
+        box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5), 0 1px 0 rgba(255, 255, 255, 0.05) inset;
+        position: relative;
+      }
+
+      .auth0-lock-cred-pane::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(52, 211, 153, 0.3), transparent);
+      }
+
+      /* Tabs */
+      .auth0-lock-tabs-container {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        margin: 0 24px;
+      }
+
+      .auth0-lock-tabs {
+        display: flex;
+        list-style: none;
+        gap: 0;
+      }
+
+      .auth0-lock-tabs li a {
+        display: block;
+        color: #999;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 14px 16px;
+        border-bottom: 2px solid transparent;
+        text-decoration: none;
+        transition: color 0.2s, border-color 0.2s;
+      }
+
+      .auth0-lock-tabs li.auth0-lock-tabs-current a {
+        color: #34d399;
+        border-bottom-color: #34d399;
+      }
+
+      /* Body content */
+      .auth0-lock-body-content {
+        padding: 24px 24px 0;
+      }
+
+      /* Social button (Google) */
+      .auth0-lock-social-buttons-pane {
+        margin-bottom: 0;
+      }
+
+      .auth0-lock-social-button {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: #ffffff;
+        border-radius: 10px;
+        height: 46px;
+        border: none;
+        cursor: pointer;
+        transition: background 0.2s, box-shadow 0.2s;
+        padding: 0 16px;
+        margin-bottom: 24px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      }
+
+      .auth0-lock-social-button:hover {
+        background: #f5f5f5;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+      }
+
+      .auth0-lock-social-button-icon {
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+      }
+
+      .auth0-lock-social-button-text {
+        color: #3c3c3c;
+        font-size: 14px;
+        font-weight: 500;
+        flex: 1;
+        text-align: center;
+      }
+
+      /* Separator */
+      .auth0-lock-pane-separator {
+        color: #555;
+        font-size: 11px;
+        text-align: center;
+        padding: 12px 0;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 4px;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+      }
+
+      .auth0-lock-pane-separator::before,
+      .auth0-lock-pane-separator::after {
+        content: '';
+        flex: 1;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+      }
+
+      /* Input blocks */
+      .auth0-lock-input-block {
+        margin-bottom: 14px;
+      }
+
+      .auth0-lock-input-wrap {
+        display: flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 10px;
+        transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+        height: 46px;
+        padding: 0 14px;
+        gap: 10px;
+      }
+
+      .auth0-lock-input-wrap:focus-within {
+        border-color: rgba(52, 211, 153, 0.5);
+        box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.1);
+        background: rgba(52, 211, 153, 0.03);
+      }
+
+      .auth0-lock-input-wrap:focus-within .auth0-lock-icon {
+        fill: #34d399;
+      }
+
+      .auth0-lock-icon-box {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+      }
+
+      .auth0-lock-icon {
+        width: 16px;
+        height: 16px;
+        fill: #666;
+        transition: fill 0.2s;
+      }
+
+      .auth0-lock-input {
+        flex: 1;
+        background: transparent;
+        border: none;
+        outline: none;
+        color: #fafafa;
+        font-size: 14px;
+        font-family: inherit;
+      }
+
+      .auth0-lock-input::placeholder {
+        color: #666;
+      }
+
+      /* Forgot password link */
+      .auth0-lock-alternative {
+        padding: 16px 0;
+        text-align: center;
+      }
+
+      .auth0-lock-alternative-link {
+        color: #34d399;
+        font-size: 13px;
+        text-decoration: none;
+      }
+
+      .auth0-lock-alternative-link:hover {
+        text-decoration: underline;
+      }
+
+      /* Submit button */
+      .auth0-lock-submit {
+        width: 100%;
+        background: linear-gradient(135deg, #34d399 0%, #2ab882 100%);
+        border: none;
+        border-radius: 10px;
+        height: 46px;
+        cursor: pointer;
+        transition: opacity 0.2s, transform 0.1s, box-shadow 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 24px;
+        box-shadow: 0 4px 20px rgba(52, 211, 153, 0.25);
+      }
+
+      .auth0-lock-submit:hover {
+        opacity: 0.9;
+        box-shadow: 0 6px 24px rgba(52, 211, 153, 0.35);
+      }
+
+      .auth0-lock-submit:active {
+        transform: scale(0.98);
+        box-shadow: 0 2px 12px rgba(52, 211, 153, 0.2);
+      }
+
+      .auth0-label-submit {
+        color: #0a0a0a;
+        font-weight: 700;
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      /* Footer text */
+      .footer-text {
+        text-align: center;
+        font-size: 11px;
+        color: #666;
+        margin-top: 20px;
+      }
+
+      @media (max-width: 480px) {
+        body {
+          align-items: flex-start;
+        }
+
+        .login-container {
+          padding: 24px 16px 32px;
+          min-height: 100vh;
+        }
+
+        .brand {
+          margin-bottom: 24px;
+        }
+
+        .brand h1 {
+          font-size: 26px;
+        }
+
+        .features {
+          margin-bottom: 20px;
+        }
+
+        .auth0-lock-cred-pane {
+          border-radius: 12px;
+        }
+
+        .auth0-lock-body-content {
+          padding: 16px 16px 0;
+        }
+
+        .auth0-lock-tabs-container {
+          margin: 0 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <!-- Branding -->
+      <div class="brand">
+        <div class="brand-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+            <polyline points="16 7 22 7 22 13" />
+          </svg>
+        </div>
+        <h1>Plutus</h1>
+        <p>Tu dinero, bajo control</p>
+      </div>
+
+      <!-- Features -->
+      <div class="features">
+        <div class="feature">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2.5" />
+            <path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" />
+          </svg>
+          <span>Administra todas tus cuentas en un solo lugar</span>
+        </div>
+        <div class="feature">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="20" x2="12" y2="10" />
+            <line x1="18" y1="20" x2="18" y2="4" />
+            <line x1="6" y1="20" x2="6" y2="16" />
+          </svg>
+          <span>Visualiza tus ingresos y gastos al instante</span>
+        </div>
+        <div class="feature">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="18" height="11" x="3" y="11" rx="2" ry="2" />
+            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+          </svg>
+          <span>Autenticación segura con Auth0</span>
+        </div>
+      </div>
+
+      <!-- Mock Auth0 Lock widget -->
+      <div id="auth0-lock-container">
+        <div class="auth0-lock-cred-pane">
+          <!-- Tabs -->
+          <div class="auth0-lock-tabs-container">
+            <ul class="auth0-lock-tabs">
+              <li class="auth0-lock-tabs-current"><a href="#">Iniciar sesión</a></li>
+              <li><a href="#">Registrarse</a></li>
+            </ul>
+          </div>
+
+          <!-- Body -->
+          <div class="auth0-lock-body-content">
+            <!-- Email input -->
+            <div class="auth0-lock-input-block">
+              <div class="auth0-lock-input-wrap">
+                <div class="auth0-lock-icon-box">
+                  <svg class="auth0-lock-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                  </svg>
+                </div>
+                <input class="auth0-lock-input" type="email" placeholder="correo@ejemplo.com" />
+              </div>
+            </div>
+
+            <!-- Password input -->
+            <div class="auth0-lock-input-block">
+              <div class="auth0-lock-input-wrap">
+                <div class="auth0-lock-icon-box">
+                  <svg class="auth0-lock-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+                  </svg>
+                </div>
+                <input class="auth0-lock-input" type="password" placeholder="su contraseña" />
+              </div>
+            </div>
+
+            <!-- Forgot password -->
+            <div class="auth0-lock-alternative">
+              <a class="auth0-lock-alternative-link" href="#">¿Olvidó su contraseña?</a>
+            </div>
+
+            <!-- Submit button -->
+            <button class="auth0-lock-submit">
+              <span class="auth0-label-submit">Iniciar sesión</span>
+            </button>
+
+            <!-- Separator -->
+            <div class="auth0-lock-pane-separator">o</div>
+
+            <!-- Google Social Button -->
+            <div class="auth0-lock-social-buttons-pane">
+              <button class="auth0-lock-social-button">
+                <svg class="auth0-lock-social-button-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                </svg>
+                <span class="auth0-lock-social-button-text">Iniciar con Google</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="footer-text">
+        Al continuar, aceptas nuestros términos de servicio y política de privacidad.
+      </p>
+    </div>
+  </body>
+</html>
