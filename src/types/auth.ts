@@ -5,37 +5,14 @@ export interface User {
   first_name: string;
   last_name: string;
   currency_default: string;
+  document_type: string | null;
+  document_number: string | null;
   date_joined: string;
 }
 
-export interface LoginRequest {
-  username: string;
-  password: string;
-}
+export type DocumentType = "CC" | "CE" | "NIT" | "PP" | "TI";
 
-export interface LoginResponse {
-  access: string;
-  refresh: string;
-}
-
-export interface RegisterRequest {
-  username: string;
-  email: string;
-  password: string;
-  password_confirm: string;
-  currency_default?: string;
-}
-
-export interface RefreshRequest {
-  refresh: string;
-}
-
-export interface RefreshResponse {
-  access: string;
-  refresh: string;
-}
-
-export interface ChangePasswordRequest {
-  old_password: string;
-  new_password: string;
+export interface DocumentMetadataRequest {
+  document_type: DocumentType;
+  document_number: string;
 }

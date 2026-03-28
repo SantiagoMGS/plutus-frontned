@@ -1,21 +1,5 @@
 import apiClient from "./client";
-import type {
-  LoginRequest,
-  LoginResponse,
-  RegisterRequest,
-  User,
-  ChangePasswordRequest,
-} from "@/types/auth";
-
-export async function login(data: LoginRequest): Promise<LoginResponse> {
-  const res = await apiClient.post<LoginResponse>("/auth/login/", data);
-  return res.data;
-}
-
-export async function register(data: RegisterRequest): Promise<User> {
-  const res = await apiClient.post<User>("/auth/register/", data);
-  return res.data;
-}
+import type { User, DocumentMetadataRequest } from "@/types/auth";
 
 export async function getMe(): Promise<User> {
   const res = await apiClient.get<User>("/auth/me/");
@@ -29,8 +13,9 @@ export async function updateMe(
   return res.data;
 }
 
-export async function changePassword(
-  data: ChangePasswordRequest,
-): Promise<void> {
-  await apiClient.post("/auth/change-password/", data);
+export async function saveDocumentMetadata(
+  data: DocumentMetadataRequest,
+): Promise<User> {
+  const res = await apiClient.post<User>("/auth/metadata/", data);
+  return res.data;
 }

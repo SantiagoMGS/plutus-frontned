@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { useAuthStore } from "@/stores/auth-store";
+import { useAuth0 } from "@auth0/auth0-react";
 import { useLogout } from "@/hooks/use-auth";
 import { useEffect, useState } from "react";
 
@@ -17,11 +17,12 @@ const pageTitles: Record<string, string> = {
   "/accounts": "Cuentas",
   "/transactions": "Movimientos",
   "/categories": "Categorías",
+  "/profile": "Mi perfil",
 };
 
 export default function Header() {
   const { pathname } = useLocation();
-  const user = useAuthStore((s) => s.user);
+  const { user: auth0User } = useAuth0();
   const logout = useLogout();
   const [dark, setDark] = useState(
     document.documentElement.classList.contains("dark"),
@@ -31,9 +32,14 @@ export default function Header() {
     document.documentElement.classList.toggle("dark", dark);
   }, [dark]);
 
-  const initials = user
-    ? `${user.first_name?.[0] ?? ""}${user.last_name?.[0] ?? ""}`.toUpperCase() ||
-      user.username[0].toUpperCase()
+  const displayName = auth0User?.name ?? auth0User?.email ?? "";
+  const initials = displayName
+    ? displayName
+        .split(" ")
+        .map((w) => w[0])
+        .join("")
+        .toUpperCase()
+        .slice(0, 2)
     : "?";
 
   return (
@@ -68,7 +74,10 @@ export default function Header() {
               disabled
               className="text-xs text-muted-foreground"
             >
-              {user?.username}
+              {auth0User?.email}
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => (window.location.href = "/profile")}>
+              Mi perfil
             </DropdownMenuItem>
             <DropdownMenuItem onClick={logout}>Cerrar sesión</DropdownMenuItem>
           </DropdownMenuContent>

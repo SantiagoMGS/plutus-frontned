@@ -4,6 +4,7 @@ import {
   Wallet,
   ArrowLeftRight,
   Tag,
+  UserCog,
   LogOut,
   TrendingUp,
 } from "lucide-react";
@@ -15,6 +16,7 @@ const navItems = [
   { label: "Cuentas", icon: Wallet, to: "/accounts" },
   { label: "Movimientos", icon: ArrowLeftRight, to: "/transactions" },
   { label: "Categorías", icon: Tag, to: "/categories" },
+  { label: "Mi perfil", icon: UserCog, to: "/profile" },
 ];
 
 export default function Sidebar() {

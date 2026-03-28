@@ -1,9 +1,9 @@
 import { Navigate, Outlet } from "react-router";
-import { useAuth0 } from "@auth0/auth0-react";
 import { Loader2 } from "lucide-react";
+import { useUser } from "@/hooks/use-auth";
 
-export default function ProtectedRoute() {
-  const { isAuthenticated, isLoading } = useAuth0();
+export default function ProfileGuard() {
+  const { data: user, isLoading } = useUser();
 
   if (isLoading) {
     return (
@@ -13,8 +13,8 @@ export default function ProtectedRoute() {
     );
   }
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+  if (user && !user.document_type) {
+    return <Navigate to="/complete-profile" replace />;
   }
 
   return <Outlet />;

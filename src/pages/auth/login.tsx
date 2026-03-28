@@ -1,104 +1,83 @@
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Link } from "react-router";
-import { Loader2, TrendingUp } from "lucide-react";
+import { useAuth0 } from "@auth0/auth0-react";
+import { Navigate } from "react-router";
+import { Loader2, TrendingUp, Wallet, BarChart3, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { loginSchema, type LoginFormData } from "@/lib/validators";
-import { useLogin } from "@/hooks/use-auth";
 
 export default function LoginPage() {
-  const loginMutation = useLogin();
+  const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
 
-  const form = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: { username: "", password: "" },
-  });
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
+      </div>
+    );
+  }
 
-  function onSubmit(data: LoginFormData) {
-    loginMutation.mutate(data);
+  if (isAuthenticated) {
+    return <Navigate to="/" replace />;
   }
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 bg-background">
-      <div className="w-full max-w-sm space-y-6">
+      <div className="w-full max-w-sm space-y-8">
+        {/* Logo y branding */}
         <div className="text-center space-y-3">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-primary/10 mb-1">
-            <TrendingUp size={22} className="text-primary" strokeWidth={2} />
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 mb-2">
+            <TrendingUp size={28} className="text-primary" strokeWidth={2} />
           </div>
           <div>
-            <h1 className="text-2xl font-bold tracking-tight">Plutus</h1>
+            <h1 className="text-3xl font-bold tracking-tight">Plutus</h1>
             <p className="text-sm text-muted-foreground mt-1">
               Tu dinero, bajo control
             </p>
           </div>
         </div>
 
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
-              control={form.control}
-              name="username"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Usuario</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="h-11"
-                      placeholder="Tu nombre de usuario"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+        {/* Features */}
+        <div className="space-y-3">
+          <div className="flex items-center gap-3 text-sm text-muted-foreground">
+            <Wallet size={18} className="text-primary shrink-0" />
+            <span>Administra todas tus cuentas en un solo lugar</span>
+          </div>
+          <div className="flex items-center gap-3 text-sm text-muted-foreground">
+            <BarChart3 size={18} className="text-primary shrink-0" />
+            <span>Visualiza tus ingresos y gastos al instante</span>
+          </div>
+          <div className="flex items-center gap-3 text-sm text-muted-foreground">
+            <Shield size={18} className="text-primary shrink-0" />
+            <span>Autenticación segura con Auth0</span>
+          </div>
+        </div>
 
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Contraseña</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="h-11"
-                      type="password"
-                      placeholder="Tu contraseña"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+        {/* Botones de Auth0 */}
+        <div className="space-y-3">
+          <Button
+            className="w-full h-11"
+            onClick={() =>
+              loginWithRedirect({
+                authorizationParams: { screen_hint: "login" },
+              })
+            }
+          >
+            Iniciar sesión
+          </Button>
+          <Button
+            variant="outline"
+            className="w-full h-11"
+            onClick={() =>
+              loginWithRedirect({
+                authorizationParams: { screen_hint: "signup" },
+              })
+            }
+          >
+            Crear cuenta
+          </Button>
+        </div>
 
-            <Button
-              type="submit"
-              className="w-full h-11"
-              disabled={loginMutation.isPending}
-            >
-              {loginMutation.isPending && (
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              )}
-              Iniciar sesión
-            </Button>
-          </form>
-        </Form>
-
-        <p className="text-sm text-center text-muted-foreground">
-          ¿No tienes cuenta?{" "}
-          <Link to="/register" className="text-primary hover:underline">
-            Regístrate
-          </Link>
+        <p className="text-xs text-center text-muted-foreground">
+          Al continuar, aceptas nuestros términos de servicio y política de
+          privacidad.
         </p>
       </div>
     </div>

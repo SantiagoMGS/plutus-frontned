@@ -7,19 +7,25 @@ export const loginSchema = z.object({
 
 export type LoginFormData = z.infer<typeof loginSchema>;
 
-export const registerSchema = z
-  .object({
-    username: z.string().min(3, "Mínimo 3 caracteres"),
-    email: z.string().email("Email inválido"),
-    password: z.string().min(8, "Mínimo 8 caracteres"),
-    password_confirm: z.string(),
-  })
-  .refine((data) => data.password === data.password_confirm, {
-    message: "Las contraseñas no coinciden",
-    path: ["password_confirm"],
-  });
+export const documentMetadataSchema = z.object({
+  document_type: z.enum(["CC", "CE", "NIT", "PP", "TI"], {
+    error: "Selecciona un tipo de documento",
+  }),
+  document_number: z
+    .string()
+    .min(5, "Mínimo 5 caracteres")
+    .max(20, "Máximo 20 caracteres"),
+});
 
-export type RegisterFormData = z.infer<typeof registerSchema>;
+export type DocumentMetadataFormData = z.infer<typeof documentMetadataSchema>;
+
+export const profileSchema = z.object({
+  first_name: z.string().min(1, "Requerido").max(100),
+  last_name: z.string().min(1, "Requerido").max(100),
+  currency_default: z.enum(["COP", "USD", "EUR"]),
+});
+
+export type ProfileFormData = z.infer<typeof profileSchema>;
 
 export const accountSchema = z
   .object({
