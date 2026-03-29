@@ -1,73 +1,75 @@
-# React + TypeScript + Vite
+# Plutus Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación web para la gestión de finanzas personales, construida con React 19, TypeScript y Vite.
 
-Currently, two official plugins are available:
+## Requisitos previos
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Node.js 20+
+- npm 10+
+- El [backend de Plutus](../plutus-backend/) debe estar corriendo en `localhost:8000`
 
-## React Compiler
+## Instalación
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 1. Instalar dependencias
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### 2. Configurar variables de entorno
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Crea un archivo `.env` en la raíz del proyecto:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```env
+VITE_API_URL=http://localhost:8000/api
+VITE_AUTH0_DOMAIN=<tu-dominio-auth0>
+VITE_AUTH0_CLIENT_ID=<tu-client-id-auth0>
+VITE_AUTH0_AUDIENCE=<tu-audience-auth0>
 ```
+
+### 3. Iniciar el servidor de desarrollo
+
+```bash
+npm run dev
+```
+
+La aplicación estará disponible en `http://localhost:5173`.
+
+## Comandos disponibles
+
+| Comando | Descripción |
+|---|---|
+| `npm run dev` | Inicia el servidor de desarrollo (Vite + HMR) |
+| `npm run build` | Compila TypeScript y genera el build de producción |
+| `npm run lint` | Ejecuta ESLint |
+| `npm run preview` | Previsualiza el build de producción |
+
+## Estructura del proyecto
+
+```
+src/
+├── api/            # Funciones de llamadas a la API (Axios)
+├── components/     # Componentes React (UI, layout, módulos)
+│   ├── ui/         # Componentes Shadcn/ui (no editar directamente)
+│   ├── accounts/   # Componentes de cuentas
+│   ├── categories/ # Componentes de categorías
+│   ├── dashboard/  # Componentes del dashboard
+│   ├── layout/     # Sidebar, header, navegación
+│   └── transactions/ # Componentes de transacciones
+├── hooks/          # Custom hooks (TanStack Query, auth, responsive)
+├── lib/            # Utilidades y validadores (Zod)
+├── pages/          # Páginas/rutas de la aplicación
+├── stores/         # Estado global (Zustand)
+└── types/          # Tipos e interfaces TypeScript
+```
+
+## Tecnologías principales
+
+- React 19 / TypeScript
+- Vite (bundler)
+- TanStack Query (manejo de estado del servidor)
+- Zustand (estado global)
+- React Hook Form + Zod (formularios y validación)
+- Shadcn/ui + Tailwind CSS v4 (interfaz)
+- Auth0 (autenticación)
+- Axios (cliente HTTP)
