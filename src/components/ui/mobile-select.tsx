@@ -65,7 +65,7 @@ export function MobileSelect({
         onClick={() => setOpen(true)}
         className={cn(
           "flex h-11 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background",
-          !selectedLabel && "text-muted-foreground"
+          !selectedLabel && "text-muted-foreground",
         )}
       >
         <span className="truncate">{selectedLabel ?? placeholder}</span>
@@ -89,7 +89,7 @@ export function MobileSelect({
                   "flex w-full items-center justify-between rounded-md px-3 py-3 text-sm transition-colors",
                   opt.value === value
                     ? "bg-primary/10 text-primary font-medium"
-                    : "hover:bg-accent"
+                    : "hover:bg-accent",
                 )}
               >
                 {opt.label}

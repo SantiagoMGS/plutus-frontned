@@ -153,7 +153,10 @@ export default function TransactionForm({ onSuccess }: TransactionFormProps) {
                 <MobileSelect
                   title={txType === "TRANSFER" ? "Cuenta origen" : "Cuenta"}
                   placeholder="Seleccionar cuenta"
-                  options={accounts.map((a: Account) => ({ value: String(a.id), label: a.name }))}
+                  options={accounts.map((a: Account) => ({
+                    value: String(a.id),
+                    label: a.name,
+                  }))}
                   value={field.value ? String(field.value) : undefined}
                   onValueChange={(v) => field.onChange(Number(v))}
                 />
@@ -176,7 +179,10 @@ export default function TransactionForm({ onSuccess }: TransactionFormProps) {
                     placeholder="Seleccionar cuenta destino"
                     options={accounts
                       .filter((a: Account) => a.id !== selectedAccount)
-                      .map((a: Account) => ({ value: String(a.id), label: a.name }))}
+                      .map((a: Account) => ({
+                        value: String(a.id),
+                        label: a.name,
+                      }))}
                     value={field.value ? String(field.value) : undefined}
                     onValueChange={(v) => field.onChange(Number(v))}
                   />
@@ -198,7 +204,10 @@ export default function TransactionForm({ onSuccess }: TransactionFormProps) {
                   <MobileSelect
                     title="Categoría"
                     placeholder="Seleccionar categoría"
-                    options={categories.map((c: Category) => ({ value: String(c.id), label: c.name }))}
+                    options={categories.map((c: Category) => ({
+                      value: String(c.id),
+                      label: c.name,
+                    }))}
                     value={field.value ? String(field.value) : undefined}
                     onValueChange={(v) => field.onChange(Number(v))}
                   />

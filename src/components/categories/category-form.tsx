@@ -83,11 +83,26 @@ const ICON_OPTIONS: { value: string; label: string; icon: LucideIcon }[] = [
 ];
 
 const COLOR_OPTIONS = [
-  "#EF4444", "#F97316", "#F59E0B", "#EAB308",
-  "#84CC16", "#22C55E", "#10B981", "#14B8A6",
-  "#06B6D4", "#0EA5E9", "#3B82F6", "#6366F1",
-  "#8B5CF6", "#A855F7", "#D946EF", "#EC4899",
-  "#F43F5E", "#78716C", "#64748B", "#1E293B",
+  "#EF4444",
+  "#F97316",
+  "#F59E0B",
+  "#EAB308",
+  "#84CC16",
+  "#22C55E",
+  "#10B981",
+  "#14B8A6",
+  "#06B6D4",
+  "#0EA5E9",
+  "#3B82F6",
+  "#6366F1",
+  "#8B5CF6",
+  "#A855F7",
+  "#D946EF",
+  "#EC4899",
+  "#F43F5E",
+  "#78716C",
+  "#64748B",
+  "#1E293B",
 ];
 
 interface CategoryFormProps {
@@ -156,7 +171,7 @@ export default function CategoryForm({
                       "flex-1 h-11 rounded-md border text-sm font-medium transition-colors",
                       field.value === "EXPENSE"
                         ? "border-primary bg-primary text-primary-foreground"
-                        : "border-input bg-background text-muted-foreground hover:bg-accent"
+                        : "border-input bg-background text-muted-foreground hover:bg-accent",
                     )}
                   >
                     Gasto
@@ -168,7 +183,7 @@ export default function CategoryForm({
                       "flex-1 h-11 rounded-md border text-sm font-medium transition-colors",
                       field.value === "INCOME"
                         ? "border-primary bg-primary text-primary-foreground"
-                        : "border-input bg-background text-muted-foreground hover:bg-accent"
+                        : "border-input bg-background text-muted-foreground hover:bg-accent",
                     )}
                   >
                     Ingreso
@@ -197,7 +212,7 @@ export default function CategoryForm({
                       className={cn(
                         "flex flex-col items-center justify-center gap-1 rounded-md border p-2 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground",
                         field.value === value &&
-                          "border-primary bg-primary/10 text-primary"
+                          "border-primary bg-primary/10 text-primary",
                       )}
                     >
                       <Icon size={18} />
@@ -230,7 +245,7 @@ export default function CategoryForm({
                         "w-8 h-8 rounded-full transition-all",
                         field.value === color
                           ? "ring-2 ring-offset-2 ring-offset-background ring-primary scale-110"
-                          : "hover:scale-110"
+                          : "hover:scale-110",
                       )}
                       style={{ backgroundColor: color }}
                     />
