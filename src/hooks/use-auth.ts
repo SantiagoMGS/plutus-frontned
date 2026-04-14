@@ -1,12 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useAuth0 } from "@auth0/auth0-react";
 import { toast } from "sonner";
 import { getMe, updateMe, saveDocumentMetadata, deleteMe } from "@/api/auth";
 import { useAuthStore } from "@/stores/auth-store";
+import { useFirebaseAuth } from "@/contexts/auth-context";
 import type { User, DocumentMetadataRequest } from "@/types/auth";
 
 export function useUser() {
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated } = useFirebaseAuth();
   const { setUser } = useAuthStore();
 
   return useQuery({
@@ -57,17 +57,17 @@ export function useUpdateProfile() {
 }
 
 export function useDeleteAccount() {
-  const { logout: auth0Logout } = useAuth0();
+  const { logout } = useFirebaseAuth();
   const queryClient = useQueryClient();
   const { clearUser } = useAuthStore();
 
   return useMutation({
     mutationFn: () => deleteMe(),
-    onSuccess: () => {
+    onSuccess: async () => {
       clearUser();
       queryClient.clear();
       toast.success("Cuenta eliminada exitosamente");
-      auth0Logout({ logoutParams: { returnTo: window.location.origin } });
+      await logout();
     },
     onError: () => {
       toast.error("Error al eliminar la cuenta");
@@ -76,13 +76,13 @@ export function useDeleteAccount() {
 }
 
 export function useLogout() {
-  const { logout: auth0Logout } = useAuth0();
+  const { logout } = useFirebaseAuth();
   const queryClient = useQueryClient();
   const { clearUser } = useAuthStore();
 
   return () => {
     clearUser();
     queryClient.clear();
-    auth0Logout({ logoutParams: { returnTo: window.location.origin } });
+    logout();
   };
 }

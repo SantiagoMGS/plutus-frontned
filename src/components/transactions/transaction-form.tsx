@@ -164,7 +164,7 @@ export default function TransactionForm({ onSuccess }: TransactionFormProps) {
                     <SelectValue placeholder="Seleccionar cuenta" />
                   </SelectTrigger>
                 </FormControl>
-                <SelectContent>
+                <SelectContent modal={false}>
                   {accounts.map((a: Account) => (
                     <SelectItem key={a.id} value={String(a.id)}>
                       {a.name}
@@ -193,7 +193,7 @@ export default function TransactionForm({ onSuccess }: TransactionFormProps) {
                       <SelectValue placeholder="Seleccionar cuenta destino" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent>
+                  <SelectContent modal={false}>
                     {accounts
                       .filter((a: Account) => a.id !== selectedAccount)
                       .map((a: Account) => (
@@ -225,7 +225,7 @@ export default function TransactionForm({ onSuccess }: TransactionFormProps) {
                       <SelectValue placeholder="Seleccionar categoría" />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent>
+                  <SelectContent modal={false}>
                     {categories.map((c: Category) => (
                       <SelectItem key={c.id} value={String(c.id)}>
                         {c.name}

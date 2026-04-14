@@ -63,14 +63,14 @@ export default function BalanceCard() {
     <>
       {/* Mobile: hero layout */}
       <div className="sm:hidden space-y-3">
-        <Card className="p-5">
-          <div className="flex items-center justify-between mb-1">
-            <span className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
+        <Card className="p-5 border-l-2 border-l-primary/60">
+          <div className="flex items-center justify-between mb-1.5">
+            <span className="text-[11px] font-medium text-muted-foreground uppercase tracking-widest">
               {net.label}
             </span>
-            <net.icon size={14} className={net.color} />
+            <net.icon size={14} className="text-primary/60" />
           </div>
-          <p className={`text-3xl font-bold tabular-nums ${net.color}`}>
+          <p className={`text-4xl font-bold tabular-nums tracking-tight ${net.color}`}>
             {formatCurrency(net.value)}
           </p>
         </Card>

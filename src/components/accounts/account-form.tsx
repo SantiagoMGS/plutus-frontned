@@ -101,13 +101,13 @@ export default function AccountForm({ account, onSuccess }: AccountFormProps) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Tipo de cuenta</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select onValueChange={field.onChange} value={field.value}>
                 <FormControl>
                   <SelectTrigger className="h-11">
                     <SelectValue />
                   </SelectTrigger>
                 </FormControl>
-                <SelectContent>
+                <SelectContent modal={false}>
                   {accountTypes.map((t) => (
                     <SelectItem key={t.value} value={t.value}>
                       {t.label}
@@ -126,13 +126,13 @@ export default function AccountForm({ account, onSuccess }: AccountFormProps) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Moneda</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select onValueChange={field.onChange} value={field.value}>
                 <FormControl>
                   <SelectTrigger className="h-11">
                     <SelectValue />
                   </SelectTrigger>
                 </FormControl>
-                <SelectContent>
+                <SelectContent modal={false}>
                   {currencies.map((c) => (
                     <SelectItem key={c.value} value={c.value}>
                       {c.label}

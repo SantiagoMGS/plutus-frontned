@@ -79,13 +79,13 @@ export default function CategoryForm({
           render={({ field }) => (
             <FormItem>
               <FormLabel>Tipo</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select onValueChange={field.onChange} value={field.value}>
                 <FormControl>
                   <SelectTrigger className="h-11">
                     <SelectValue />
                   </SelectTrigger>
                 </FormControl>
-                <SelectContent>
+                <SelectContent modal={false}>
                   <SelectItem value="INCOME">Ingreso</SelectItem>
                   <SelectItem value="EXPENSE">Gasto</SelectItem>
                 </SelectContent>

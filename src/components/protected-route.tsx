@@ -1,9 +1,9 @@
 import { Navigate, Outlet } from "react-router";
-import { useAuth0 } from "@auth0/auth0-react";
+import { useFirebaseAuth } from "@/contexts/auth-context";
 import { Loader2 } from "lucide-react";
 
 export default function ProtectedRoute() {
-  const { isAuthenticated, isLoading } = useAuth0();
+  const { isAuthenticated, isLoading } = useFirebaseAuth();
 
   if (isLoading) {
     return (

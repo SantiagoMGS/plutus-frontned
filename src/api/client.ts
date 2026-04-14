@@ -5,7 +5,7 @@ const apiClient = axios.create({
   headers: { "Content-Type": "application/json" },
 });
 
-// Token getter set by useApiAuth hook (Auth0 SDK)
+// Token getter set by useApiAuth hook (Firebase Auth)
 let tokenGetter: (() => Promise<string>) | null = null;
 
 export function setTokenGetter(getter: () => Promise<string>) {

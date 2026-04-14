@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { useAuth0 } from "@auth0/auth0-react";
+import { useFirebaseAuth } from "@/contexts/auth-context";
 import { useLogout } from "@/hooks/use-auth";
 import { useEffect, useState } from "react";
 
@@ -22,7 +22,7 @@ const pageTitles: Record<string, string> = {
 
 export default function Header() {
   const { pathname } = useLocation();
-  const { user: auth0User } = useAuth0();
+  const { firebaseUser } = useFirebaseAuth();
   const logout = useLogout();
   const [dark, setDark] = useState(
     document.documentElement.classList.contains("dark"),
@@ -32,7 +32,7 @@ export default function Header() {
     document.documentElement.classList.toggle("dark", dark);
   }, [dark]);
 
-  const displayName = auth0User?.name ?? auth0User?.email ?? "";
+  const displayName = firebaseUser?.displayName ?? firebaseUser?.email ?? "";
   const initials = displayName
     ? displayName
         .split(" ")
@@ -74,7 +74,7 @@ export default function Header() {
               disabled
               className="text-xs text-muted-foreground"
             >
-              {auth0User?.email}
+              {firebaseUser?.email}
             </DropdownMenuItem>
             <DropdownMenuItem
               onClick={() => (window.location.href = "/profile")}

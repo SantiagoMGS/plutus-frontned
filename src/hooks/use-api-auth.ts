@@ -1,19 +1,13 @@
 import { useEffect } from "react";
-import { useAuth0 } from "@auth0/auth0-react";
+import { useFirebaseAuth } from "@/contexts/auth-context";
 import { setTokenGetter } from "@/api/client";
 
 export function useApiAuth() {
-  const { getAccessTokenSilently, isAuthenticated } = useAuth0();
+  const { firebaseUser, isAuthenticated } = useFirebaseAuth();
 
   useEffect(() => {
-    if (isAuthenticated) {
-      setTokenGetter(() =>
-        getAccessTokenSilently({
-          authorizationParams: {
-            audience: import.meta.env.VITE_AUTH0_AUDIENCE,
-          },
-        })
-      );
+    if (isAuthenticated && firebaseUser) {
+      setTokenGetter(() => firebaseUser.getIdToken());
     }
-  }, [isAuthenticated, getAccessTokenSilently]);
+  }, [isAuthenticated, firebaseUser]);
 }
