@@ -43,7 +43,12 @@ export function MobileSelect({
 
   if (isDesktop) {
     return (
-      <Select onValueChange={(val) => { if (val) onValueChange(val); }} value={value}>
+      <Select
+        onValueChange={(val) => {
+          if (val) onValueChange(val);
+        }}
+        value={value}
+      >
         <SelectTrigger className="h-11">
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>
