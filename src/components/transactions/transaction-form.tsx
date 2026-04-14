@@ -3,13 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { MobileSelect } from "@/components/ui/mobile-select";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Form,
@@ -155,23 +149,15 @@ export default function TransactionForm({ onSuccess }: TransactionFormProps) {
               <FormLabel>
                 {txType === "TRANSFER" ? "Cuenta origen" : "Cuenta"}
               </FormLabel>
-              <Select
-                onValueChange={(v) => field.onChange(Number(v))}
-                value={field.value ? String(field.value) : undefined}
-              >
-                <FormControl>
-                  <SelectTrigger className="h-11">
-                    <SelectValue placeholder="Seleccionar cuenta" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent modal={false}>
-                  {accounts.map((a: Account) => (
-                    <SelectItem key={a.id} value={String(a.id)}>
-                      {a.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <FormControl>
+                <MobileSelect
+                  title={txType === "TRANSFER" ? "Cuenta origen" : "Cuenta"}
+                  placeholder="Seleccionar cuenta"
+                  options={accounts.map((a: Account) => ({ value: String(a.id), label: a.name }))}
+                  value={field.value ? String(field.value) : undefined}
+                  onValueChange={(v) => field.onChange(Number(v))}
+                />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}
@@ -184,25 +170,17 @@ export default function TransactionForm({ onSuccess }: TransactionFormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Cuenta destino</FormLabel>
-                <Select
-                  onValueChange={(v) => field.onChange(Number(v))}
-                  value={field.value ? String(field.value) : undefined}
-                >
-                  <FormControl>
-                    <SelectTrigger className="h-11">
-                      <SelectValue placeholder="Seleccionar cuenta destino" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent modal={false}>
-                    {accounts
+                <FormControl>
+                  <MobileSelect
+                    title="Cuenta destino"
+                    placeholder="Seleccionar cuenta destino"
+                    options={accounts
                       .filter((a: Account) => a.id !== selectedAccount)
-                      .map((a: Account) => (
-                        <SelectItem key={a.id} value={String(a.id)}>
-                          {a.name}
-                        </SelectItem>
-                      ))}
-                  </SelectContent>
-                </Select>
+                      .map((a: Account) => ({ value: String(a.id), label: a.name }))}
+                    value={field.value ? String(field.value) : undefined}
+                    onValueChange={(v) => field.onChange(Number(v))}
+                  />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
@@ -216,23 +194,15 @@ export default function TransactionForm({ onSuccess }: TransactionFormProps) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Categoría</FormLabel>
-                <Select
-                  onValueChange={(v) => field.onChange(Number(v))}
-                  value={field.value ? String(field.value) : undefined}
-                >
-                  <FormControl>
-                    <SelectTrigger className="h-11">
-                      <SelectValue placeholder="Seleccionar categoría" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent modal={false}>
-                    {categories.map((c: Category) => (
-                      <SelectItem key={c.id} value={String(c.id)}>
-                        {c.name}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <FormControl>
+                  <MobileSelect
+                    title="Categoría"
+                    placeholder="Seleccionar categoría"
+                    options={categories.map((c: Category) => ({ value: String(c.id), label: c.name }))}
+                    value={field.value ? String(field.value) : undefined}
+                    onValueChange={(v) => field.onChange(Number(v))}
+                  />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}

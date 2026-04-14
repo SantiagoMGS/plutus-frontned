@@ -1,13 +1,7 @@
 import { useState } from "react";
 import { SlidersHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { MobileSelect } from "@/components/ui/mobile-select";
 import { Input } from "@/components/ui/input";
 import {
   Sheet,
@@ -49,44 +43,28 @@ export default function TransactionFilters({
     onFiltersChange(next);
   }
 
+  const accountOptions = [
+    { value: "ALL", label: "Todas las cuentas" },
+    ...accounts.map((a: Account) => ({ value: String(a.id), label: a.name })),
+  ];
+
   const filterControls = (
     <>
-      <Select
+      <MobileSelect
+        title="Tipo"
+        placeholder="Tipo"
+        options={transactionTypes}
         value={filters.transaction_type ?? "ALL"}
-        onValueChange={(v) => {
-          if (v) setFilter("transaction_type", v);
-        }}
-      >
-        <SelectTrigger className="h-11 w-full md:w-40">
-          <SelectValue placeholder="Tipo" />
-        </SelectTrigger>
-        <SelectContent>
-          {transactionTypes.map((t) => (
-            <SelectItem key={t.value} value={t.value}>
-              {t.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+        onValueChange={(v) => setFilter("transaction_type", v)}
+      />
 
-      <Select
+      <MobileSelect
+        title="Cuenta"
+        placeholder="Cuenta"
+        options={accountOptions}
         value={filters.account ?? "ALL"}
-        onValueChange={(v) => {
-          if (v) setFilter("account", v);
-        }}
-      >
-        <SelectTrigger className="h-11 w-full md:w-44">
-          <SelectValue placeholder="Cuenta" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="ALL">Todas las cuentas</SelectItem>
-          {accounts.map((a: Account) => (
-            <SelectItem key={a.id} value={String(a.id)}>
-              {a.name}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+        onValueChange={(v) => setFilter("account", v)}
+      />
 
       <Input
         className="h-11 w-full md:w-48"

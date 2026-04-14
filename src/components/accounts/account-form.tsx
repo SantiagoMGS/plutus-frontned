@@ -3,13 +3,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { MobileSelect } from "@/components/ui/mobile-select";
+import { cn } from "@/lib/utils";
 import {
   Form,
   FormControl,
@@ -38,6 +33,14 @@ const currencies = [
   { value: "COP", label: "COP" },
   { value: "USD", label: "USD" },
   { value: "EUR", label: "EUR" },
+];
+
+const COLOR_OPTIONS = [
+  "#EF4444", "#F97316", "#F59E0B", "#EAB308",
+  "#84CC16", "#22C55E", "#10B981", "#14B8A6",
+  "#06B6D4", "#0EA5E9", "#3B82F6", "#6366F1",
+  "#8B5CF6", "#A855F7", "#D946EF", "#EC4899",
+  "#F43F5E", "#78716C", "#64748B", "#1E293B",
 ];
 
 export default function AccountForm({ account, onSuccess }: AccountFormProps) {
@@ -101,20 +104,15 @@ export default function AccountForm({ account, onSuccess }: AccountFormProps) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Tipo de cuenta</FormLabel>
-              <Select onValueChange={field.onChange} value={field.value}>
-                <FormControl>
-                  <SelectTrigger className="h-11">
-                    <SelectValue />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent modal={false}>
-                  {accountTypes.map((t) => (
-                    <SelectItem key={t.value} value={t.value}>
-                      {t.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <FormControl>
+                <MobileSelect
+                  title="Tipo de cuenta"
+                  placeholder="Seleccionar tipo"
+                  options={accountTypes}
+                  value={field.value}
+                  onValueChange={field.onChange}
+                />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}
@@ -126,20 +124,15 @@ export default function AccountForm({ account, onSuccess }: AccountFormProps) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Moneda</FormLabel>
-              <Select onValueChange={field.onChange} value={field.value}>
-                <FormControl>
-                  <SelectTrigger className="h-11">
-                    <SelectValue />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent modal={false}>
-                  {currencies.map((c) => (
-                    <SelectItem key={c.value} value={c.value}>
-                      {c.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <FormControl>
+                <MobileSelect
+                  title="Moneda"
+                  placeholder="Seleccionar moneda"
+                  options={currencies}
+                  value={field.value}
+                  onValueChange={field.onChange}
+                />
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}
@@ -151,15 +144,24 @@ export default function AccountForm({ account, onSuccess }: AccountFormProps) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Color</FormLabel>
-              <div className="flex items-center gap-2">
-                <div
-                  className="w-8 h-8 rounded-full border"
-                  style={{ backgroundColor: field.value }}
-                />
-                <FormControl>
-                  <Input className="h-11" placeholder="#4F46E5" {...field} />
-                </FormControl>
-              </div>
+              <FormControl>
+                <div className="flex flex-wrap gap-2">
+                  {COLOR_OPTIONS.map((color) => (
+                    <button
+                      key={color}
+                      type="button"
+                      onClick={() => field.onChange(color)}
+                      className={cn(
+                        "w-8 h-8 rounded-full transition-all",
+                        field.value === color
+                          ? "ring-2 ring-offset-2 ring-offset-background ring-primary scale-110"
+                          : "hover:scale-110"
+                      )}
+                      style={{ backgroundColor: color }}
+                    />
+                  ))}
+                </div>
+              </FormControl>
               <FormMessage />
             </FormItem>
           )}

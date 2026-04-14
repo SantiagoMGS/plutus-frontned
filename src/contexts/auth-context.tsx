@@ -8,6 +8,8 @@ import {
 import {
   onAuthStateChanged,
   signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   signOut,
   GoogleAuthProvider,
   type User as FirebaseUser,
@@ -31,6 +33,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    getRedirectResult(auth)
+      .then((result) => {
+        if (result?.user) {
+          setFirebaseUser(result.user);
+        }
+      })
+      .catch(() => {});
+
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setFirebaseUser(user);
       setIsLoading(false);
@@ -39,7 +49,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const signInWithGoogle = async () => {
-    await signInWithPopup(auth, googleProvider);
+    try {
+      await signInWithPopup(auth, googleProvider);
+    } catch (error: unknown) {
+      const firebaseError = error as { code?: string };
+      if (
+        firebaseError.code === "auth/popup-blocked" ||
+        firebaseError.code === "auth/popup-closed-by-user" ||
+        firebaseError.code === "auth/cancelled-popup-request"
+      ) {
+        await signInWithRedirect(auth, googleProvider);
+      } else {
+        throw error;
+      }
+    }
   };
 
   const logout = async () => {
